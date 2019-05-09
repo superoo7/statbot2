@@ -55,14 +55,12 @@ func botReady(s *discord.Session, r *discord.Ready) {
 }
 
 func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.DiscordEmbedMessage, mc chan<- d.DiscordMessage) {
-
 	// Ignore all messages created by the bot itself
-	// This isn't required in this specific example but it's a good practice.
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
 
-	// Check whitelist
+	// filter whitelist channel
 	exit := true
 	for _, cid := range config.Whitelist {
 		if m.ChannelID == cid {
@@ -74,6 +72,7 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 		return
 	}
 
+	// Update session struct
 	d.UpdateSession(s)
 
 	trigger := string(m.Content[0])
@@ -133,7 +132,17 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 				),
 			}
 			break
+		case "convert", "s/sbd", "sbd/s", "delegate", "bugs", "bug", "hunt", "steemhunt":
+			emc <- d.DiscordEmbedMessage{
+				CID:     m.ChannelID,
+				Message: d.GenErrorMessage("Command are still Work In Progress (WIP) in V2, please wait for the update"),
+			}
+			break
 		default:
+			emc <- d.DiscordEmbedMessage{
+				CID:     m.ChannelID,
+				Message: d.GenErrorMessage("Invalid command, Try `%help` to get started"),
+			}
 			break
 		}
 	}
