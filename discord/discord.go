@@ -1,14 +1,15 @@
 package discord
 
 import (
+	"fmt"
 	"log"
-	"os"
 
-	discord "github.com/bwmarrin/discordgo"
+	discordgo "github.com/bwmarrin/discordgo"
+	"github.com/superoo7/statbot2/config"
 )
 
 // Discord Session
-var Discord *discord.Session
+var Discord *discordgo.Session
 
 // Color
 const (
@@ -19,7 +20,7 @@ const (
 
 type DiscordEmbedMessage struct {
 	CID     string
-	Message *discord.MessageEmbed
+	Message *discordgo.MessageEmbed
 }
 
 type DiscordMessage struct {
@@ -30,12 +31,12 @@ type DiscordMessage struct {
 var DiscordEmbedMessageChannel chan DiscordEmbedMessage
 var DiscordMessageChannel chan DiscordMessage
 
-var Session *discord.Session
+var Session *discordgo.Session
 
 func init() {
 	// INIT DISCORD
-	token := os.Getenv("DISCORD_TOKEN")
-	d, err := discord.New("Bot " + token)
+	fmt.Println("SETTING UP DISCORD...")
+	d, err := discordgo.New("Bot " + config.DiscordToken)
 	if err != nil {
 		log.Fatal("Invalid Discord Token")
 	}
@@ -46,7 +47,7 @@ func init() {
 	DiscordMessageChannel = make(chan DiscordMessage)
 }
 
-func UpdateSession(s *discord.Session) {
+func UpdateSession(s *discordgo.Session) {
 	Session = s
 }
 
@@ -54,5 +55,12 @@ func ProcessEmbedMessage(m <-chan DiscordEmbedMessage) {
 	for {
 		msg := <-m
 		Session.ChannelMessageSendEmbed(msg.CID, msg.Message)
+	}
+}
+
+func ProcessMessage(m <-chan DiscordMessage) {
+	for {
+		msg := <-m
+		Session.ChannelMessageSend(msg.CID, msg.Message)
 	}
 }

@@ -7,9 +7,10 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/superoo7/statbot2/command"
+
 	discord "github.com/bwmarrin/discordgo"
 
-	"github.com/superoo7/statbot2/coingecko"
 	"github.com/superoo7/statbot2/config"
 	d "github.com/superoo7/statbot2/discord"
 )
@@ -21,11 +22,12 @@ func main() {
 	// Register the messageCreate func as a callback for MessageCreate events.
 	bot.AddHandlerOnce(botReady)
 	bot.AddHandler(func(s *discord.Session, m *discord.MessageCreate) {
-		messageCreate(s, m, d.DiscordEmbedMessageChannel)
+		messageCreate(s, m, d.DiscordEmbedMessageChannel, d.DiscordMessageChannel)
 	})
 	err := bot.Open()
 
 	go d.ProcessEmbedMessage(d.DiscordEmbedMessageChannel)
+	go d.ProcessMessage(d.DiscordMessageChannel)
 
 	if err != nil {
 		fmt.Println("error opening connection,", err)
@@ -52,7 +54,7 @@ func botReady(s *discord.Session, r *discord.Ready) {
 	s.UpdateStatus(0, "Statbot V2 %help to get started")
 }
 
-func messageCreate(s *discord.Session, m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage) {
+func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.DiscordEmbedMessage, mc chan<- d.DiscordMessage) {
 
 	// Ignore all messages created by the bot itself
 	// This isn't required in this specific example but it's a good practice.
@@ -82,24 +84,54 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, c chan<- d.Disc
 			return
 		}
 		coin := args[0]
-		price, err := coingecko.CG.SimpleSinglePrice(coin, "usd")
-		if err != nil {
-			em := d.GenSimpleEmbed(d.Red, fmt.Sprintf("%s not found", coin))
-			msg := d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
-			c <- msg
-		} else {
-			em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("%s is worth %f %s", price.ID, price.MarketPrice, price.Currency))
-			msg := d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
-			c <- msg
-		}
+		command.PriceCommand(coin, m, emc)
 	} else if trigger == "%" {
 		if len(args) < 1 {
 			return
 		}
 		switch args[0] {
-		case "help":
-			msg := "`$coin` - for checking cryptocurrency price"
-			s.ChannelMessageSendEmbed(m.ChannelID, d.GenSimpleEmbed(d.Blue, msg))
+		case "p", "price":
+			if len(args) >= 2 {
+				coin := args[1]
+				command.PriceCommand(coin, m, emc)
+			} else {
+				em := d.GenErrorMessage("Invalid command, try `%price <coin>`")
+				emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+			}
+			break
+		case "ping":
+			command.PingCommand(m, emc)
+			break
+		case "discord":
+			msg := d.GenSimpleEmbed(d.Blue, "Join our discord channel")
+			emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: msg}
+			mc <- d.DiscordMessage{CID: m.ChannelID, Message: "https://discord.gg/J99vTUS"}
+			break
+		case "h", "help":
+			emc <- d.DiscordEmbedMessage{
+				CID: m.ChannelID,
+				Message: d.GenMultipleEmbed(
+					d.Blue,
+					fmt.Sprintf("Help Message (%s)", config.Version),
+					[]*discord.MessageEmbedField{
+						&discord.MessageEmbedField{
+							Name:   "`$<coin>` , `%price <coin>`, `%p <coin>`",
+							Value:  "for checking cryptocurrency price",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "`%discord`",
+							Value:  "to join our discord!",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "`$help` , `%h`",
+							Value:  "for help",
+							Inline: false,
+						},
+					},
+				),
+			}
 			break
 		default:
 			break
