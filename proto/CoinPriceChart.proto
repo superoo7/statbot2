@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service CoinPriceChart {
+    rpc PriceChart (CoinInfo) returns (PriceChartInfo) {}
+}
+
+message CoinInfo {
+    string coin = 1;
+}
+
+message PriceChartInfo {
+    string fileName = 1;
+    int64 timestamp = 2;
+    string key = 3;
+}
