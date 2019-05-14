@@ -89,6 +89,15 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			return
 		}
 		switch args[0] {
+		case "chart":
+			if len(args) >= 2 {
+				coin := args[1]
+				command.ChartCommand(coin, m, emc)
+			} else {
+				em := d.GenErrorMessage("Invalid command, try `%price <coin>`")
+				emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+			}
+			break
 		case "p", "price":
 			if len(args) >= 2 {
 				coin := args[1]

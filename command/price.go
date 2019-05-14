@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	discord "github.com/bwmarrin/discordgo"
-	"github.com/superoo7/go-gecko/v3/types"
 
 	"github.com/superoo7/statbot2/coingecko"
 	d "github.com/superoo7/statbot2/discord"
@@ -12,18 +11,15 @@ import (
 
 // PriceCommand `%price <coin>` | `$<coin>` to query price of a certain crypto
 func PriceCommand(coin string, m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage) {
-	LoadCoinList()
+	err := LoadCoinList()
 
-	var cc types.CoinsListItem
-
-	exit := true
-	for _, c := range *Coinlist {
-		if coin == c.ID || coin == c.Name || coin == c.Symbol {
-			exit = false
-			cc = c
-			break
-		}
+	if err != nil {
+		em := d.GenSimpleEmbed(d.Red, "CoinGecko API cannot be connected.")
+		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+		return
 	}
+
+	exit, cc := IsCoinInList(coin)
 	if exit {
 		em := d.GenSimpleEmbed(d.Red, fmt.Sprintf("%s not found", coin))
 		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}

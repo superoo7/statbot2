@@ -67,7 +67,7 @@ server.addService(CoinPriceChart.service, {
     const link = `https://superoo7.github.io/ce-to-iframe?wc-name=coingecko-coin-price-chart-widget&wc-src=https%3A%2F%2Fwidgets.coingecko.com%2Fcoingecko-coin-price-chart-widget.js&width=400&height=300&coin-id=${coin}`;
     const img = `../img/${coin}-${timeNow}.png`;
     captureWebsite
-      .file(link, img, { height: 320, width: 420, delay: 1 })
+      .file(link, img, { height: 320, width: 420, delay: 2 })
       .then(() => {
         return s3Upload("PriceChart", img);
       })
