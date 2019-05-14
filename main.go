@@ -7,10 +7,10 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/superoo7/statbot2/command"
-
 	discord "github.com/bwmarrin/discordgo"
 
+	"github.com/superoo7/statbot2/command"
+	"github.com/superoo7/statbot2/command/steem"
 	"github.com/superoo7/statbot2/config"
 	d "github.com/superoo7/statbot2/discord"
 )
@@ -49,7 +49,7 @@ func main() {
 }
 
 func botReady(s *discord.Session, r *discord.Ready) {
-	d.UpdateSession(s)
+	go d.UpdateSession(s)
 	fmt.Println("Bot is running.")
 	s.UpdateStatus(0, "Statbot V2 %help to get started")
 }
@@ -73,7 +73,7 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 	}
 
 	// Update session struct
-	d.UpdateSession(s)
+	go d.UpdateSession(s)
 
 	trigger := string(m.Content[0])
 	args := strings.Fields(m.Content[1:])
@@ -89,6 +89,15 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			return
 		}
 		switch args[0] {
+		case "chart":
+			if len(args) >= 2 {
+				coin := args[1]
+				command.ChartCommand(coin, m, emc)
+			} else {
+				em := d.GenErrorMessage("Invalid command, try `%price <coin>`")
+				emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+			}
+			break
 		case "p", "price":
 			if len(args) >= 2 {
 				coin := args[1]
@@ -131,6 +140,9 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 					},
 				),
 			}
+			break
+		case "s", "steem":
+			steem.SteemCommand(m.ChannelID, args, emc, mc)
 			break
 		case "convert", "s/sbd", "sbd/s", "delegate", "bugs", "bug", "hunt", "steemhunt":
 			emc <- d.DiscordEmbedMessage{

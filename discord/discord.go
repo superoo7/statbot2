@@ -3,6 +3,7 @@ package discord
 import (
 	"fmt"
 	"log"
+	"sync"
 
 	discordgo "github.com/bwmarrin/discordgo"
 	"github.com/superoo7/statbot2/config"
@@ -33,6 +34,8 @@ var DiscordMessageChannel chan DiscordMessage
 
 var Session *discordgo.Session
 
+var mutex = &sync.Mutex{}
+
 func init() {
 	// INIT DISCORD
 	fmt.Println("SETTING UP DISCORD...")
@@ -48,7 +51,9 @@ func init() {
 }
 
 func UpdateSession(s *discordgo.Session) {
+	mutex.Lock()
 	Session = s
+	mutex.Unlock()
 }
 
 func ProcessEmbedMessage(m <-chan DiscordEmbedMessage) {

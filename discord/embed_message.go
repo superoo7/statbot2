@@ -21,6 +21,16 @@ func GenSimpleEmbed(color int, description string) *discord.MessageEmbed {
 	}
 }
 
+func GenSimpleImageEmbed(color int, url string, description string) *discord.MessageEmbed {
+	return &discord.MessageEmbed{
+		Author: &discord.MessageEmbedAuthor{},
+		Color:  color,
+		Image: &discord.MessageEmbedImage{
+			URL: url,
+		},
+	}
+}
+
 // GenErrorMessage Generate embeded Error Message
 func GenErrorMessage(description string) *discord.MessageEmbed {
 	return &discord.MessageEmbed{
