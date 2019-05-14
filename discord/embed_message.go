@@ -21,10 +21,11 @@ func GenSimpleEmbed(color int, description string) *discord.MessageEmbed {
 	}
 }
 
-func GenSimpleImageEmbed(color int, url string, description string) *discord.MessageEmbed {
+func GenSimpleImageEmbed(color int, url string, title string) *discord.MessageEmbed {
 	return &discord.MessageEmbed{
 		Author: &discord.MessageEmbedAuthor{},
 		Color:  color,
+		Title:  title,
 		Image: &discord.MessageEmbedImage{
 			URL: url,
 		},
