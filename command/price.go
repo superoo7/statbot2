@@ -2,7 +2,6 @@ package command
 
 import (
 	"fmt"
-	"time"
 
 	discord "github.com/bwmarrin/discordgo"
 	"github.com/superoo7/go-gecko/v3/types"
@@ -11,30 +10,14 @@ import (
 	d "github.com/superoo7/statbot2/discord"
 )
 
-var coinlist *types.CoinList
-var lastSavedCoinList time.Time
-
 // PriceCommand `%price <coin>` | `$<coin>` to query price of a certain crypto
 func PriceCommand(coin string, m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage) {
-	now := time.Now()
-	diff := now.Sub(lastSavedCoinList)
-	days := int(diff.Hours() / 24)
-
-	if days > 1 {
-		cl, err := coingecko.CG.CoinsList()
-		if err != nil {
-			em := d.GenSimpleEmbed(d.Red, fmt.Sprintf("%s not found", coin))
-			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
-			return
-		}
-		coinlist = cl
-		lastSavedCoinList = now
-	}
+	LoadCoinList()
 
 	var cc types.CoinsListItem
 
 	exit := true
-	for _, c := range *coinlist {
+	for _, c := range *Coinlist {
 		if coin == c.ID || coin == c.Name || coin == c.Symbol {
 			exit = false
 			cc = c

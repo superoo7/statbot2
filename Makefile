@@ -3,6 +3,7 @@ init:
 	@GO111MODULE=on go get
 	@npm i -g concurrently
 	@mkdir img
+	@protoc -I./proto --go_out=plugins=grpc:./proto ./proto/*.proto
 
 build:
 	@docker build . -t statbot
