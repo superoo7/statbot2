@@ -144,10 +144,15 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 		case "s", "steem":
 			steem.SteemCommand(m.ChannelID, args, emc, mc)
 			break
-		case "convert", "s/sbd", "sbd/s", "delegate", "bugs", "bug", "hunt", "steemhunt":
+		case "convert", "s/sbd", "sbd/s", "bugs", "bug", "hunt", "steemhunt":
 			emc <- d.DiscordEmbedMessage{
 				CID:     m.ChannelID,
 				Message: d.GenErrorMessage("Command are still Work In Progress (WIP) in V2, please wait for the update"),
+			}
+			break
+		case "delegate":
+			if len(args) > 1 {
+				steem.DelegateCommand(m.ChannelID, emc, args[1:])
 			}
 			break
 		default:
