@@ -2,6 +2,7 @@ package command
 
 import (
 	"fmt"
+	"strings"
 
 	discord "github.com/bwmarrin/discordgo"
 
@@ -19,6 +20,8 @@ func PriceCommand(coin string, m *discord.MessageCreate, c chan<- d.DiscordEmbed
 		return
 	}
 
+	coin = strings.ToLower(coin)
+
 	exit, cc := IsCoinInList(coin)
 	if exit {
 		em := d.GenSimpleEmbed(d.Red, fmt.Sprintf("%s not found", coin))
@@ -31,7 +34,14 @@ func PriceCommand(coin string, m *discord.MessageCreate, c chan<- d.DiscordEmbed
 		em := d.GenSimpleEmbed(d.Red, fmt.Sprintf("%s not found", cc.ID))
 		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 	} else {
-		em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("**%s** (%s) is worth %f %s", cc.Name, cc.ID, price.MarketPrice, price.Currency))
+		// em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("**%s** (%s) is worth %f %s", cc.Name, cc.ID, price.MarketPrice, price.Currency))
+		em := d.GenMultipleEmbed(d.Green, fmt.Sprintf("%s -> USD", cc.Name), []*discord.MessageEmbedField{
+			&discord.MessageEmbedField{
+				Name:   fmt.Sprintf("**%s** (%s) is worth **%f %s**", cc.Name, cc.ID, price.MarketPrice, strings.ToUpper(price.Currency)),
+				Value:  fmt.Sprintf("More details at https://www.coingecko.com/coins/%s?ref=superoo7", cc.ID),
+				Inline: false,
+			},
+		})
 		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 	}
 }
