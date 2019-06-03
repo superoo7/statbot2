@@ -22,6 +22,37 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type Empty struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Empty) Reset()         { *m = Empty{} }
+func (m *Empty) String() string { return proto.CompactTextString(m) }
+func (*Empty) ProtoMessage()    {}
+func (*Empty) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e264066df25e51ee, []int{0}
+}
+
+func (m *Empty) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Empty.Unmarshal(m, b)
+}
+func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
+}
+func (m *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(m, src)
+}
+func (m *Empty) XXX_Size() int {
+	return xxx_messageInfo_Empty.Size(m)
+}
+func (m *Empty) XXX_DiscardUnknown() {
+	xxx_messageInfo_Empty.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Empty proto.InternalMessageInfo
+
 type CoinInfo struct {
 	Coin                 string   `protobuf:"bytes,1,opt,name=coin,proto3" json:"coin,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -33,7 +64,7 @@ func (m *CoinInfo) Reset()         { *m = CoinInfo{} }
 func (m *CoinInfo) String() string { return proto.CompactTextString(m) }
 func (*CoinInfo) ProtoMessage()    {}
 func (*CoinInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e264066df25e51ee, []int{0}
+	return fileDescriptor_e264066df25e51ee, []int{1}
 }
 
 func (m *CoinInfo) XXX_Unmarshal(b []byte) error {
@@ -74,7 +105,7 @@ func (m *PriceChartInfo) Reset()         { *m = PriceChartInfo{} }
 func (m *PriceChartInfo) String() string { return proto.CompactTextString(m) }
 func (*PriceChartInfo) ProtoMessage()    {}
 func (*PriceChartInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e264066df25e51ee, []int{1}
+	return fileDescriptor_e264066df25e51ee, []int{2}
 }
 
 func (m *PriceChartInfo) XXX_Unmarshal(b []byte) error {
@@ -116,25 +147,85 @@ func (m *PriceChartInfo) GetKey() string {
 	return ""
 }
 
+type DailyChartInfo struct {
+	FileName             string   `protobuf:"bytes,1,opt,name=fileName,proto3" json:"fileName,omitempty"`
+	Timestamp            int64    `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Key                  string   `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DailyChartInfo) Reset()         { *m = DailyChartInfo{} }
+func (m *DailyChartInfo) String() string { return proto.CompactTextString(m) }
+func (*DailyChartInfo) ProtoMessage()    {}
+func (*DailyChartInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e264066df25e51ee, []int{3}
+}
+
+func (m *DailyChartInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DailyChartInfo.Unmarshal(m, b)
+}
+func (m *DailyChartInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DailyChartInfo.Marshal(b, m, deterministic)
+}
+func (m *DailyChartInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DailyChartInfo.Merge(m, src)
+}
+func (m *DailyChartInfo) XXX_Size() int {
+	return xxx_messageInfo_DailyChartInfo.Size(m)
+}
+func (m *DailyChartInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_DailyChartInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DailyChartInfo proto.InternalMessageInfo
+
+func (m *DailyChartInfo) GetFileName() string {
+	if m != nil {
+		return m.FileName
+	}
+	return ""
+}
+
+func (m *DailyChartInfo) GetTimestamp() int64 {
+	if m != nil {
+		return m.Timestamp
+	}
+	return 0
+}
+
+func (m *DailyChartInfo) GetKey() string {
+	if m != nil {
+		return m.Key
+	}
+	return ""
+}
+
 func init() {
+	proto.RegisterType((*Empty)(nil), "Empty")
 	proto.RegisterType((*CoinInfo)(nil), "CoinInfo")
 	proto.RegisterType((*PriceChartInfo)(nil), "PriceChartInfo")
+	proto.RegisterType((*DailyChartInfo)(nil), "DailyChartInfo")
 }
 
 func init() { proto.RegisterFile("CoinPriceChart.proto", fileDescriptor_e264066df25e51ee) }
 
 var fileDescriptor_e264066df25e51ee = []byte{
-	// 159 bytes of a gzipped FileDescriptorProto
+	// 197 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x71, 0xce, 0xcf, 0xcc,
 	0x0b, 0x28, 0xca, 0x4c, 0x4e, 0x75, 0xce, 0x48, 0x2c, 0x2a, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9,
-	0x57, 0x92, 0xe3, 0xe2, 0x00, 0x89, 0x7b, 0xe6, 0xa5, 0xe5, 0x0b, 0x09, 0x71, 0xb1, 0x24, 0xe7,
-	0x67, 0xe6, 0x49, 0x30, 0x2a, 0x30, 0x6a, 0x70, 0x06, 0x81, 0xd9, 0x4a, 0x31, 0x5c, 0x7c, 0x08,
-	0x3d, 0x60, 0x55, 0x52, 0x5c, 0x1c, 0x69, 0x99, 0x39, 0xa9, 0x7e, 0x89, 0xb9, 0xa9, 0x50, 0x95,
-	0x70, 0xbe, 0x90, 0x0c, 0x17, 0x67, 0x49, 0x66, 0x6e, 0x6a, 0x71, 0x49, 0x62, 0x6e, 0x81, 0x04,
-	0x93, 0x02, 0xa3, 0x06, 0x73, 0x10, 0x42, 0x40, 0x48, 0x80, 0x8b, 0x39, 0x3b, 0xb5, 0x52, 0x82,
-	0x19, 0xac, 0x09, 0xc4, 0x34, 0xb2, 0xe1, 0xe2, 0x43, 0x75, 0x95, 0x90, 0x16, 0x17, 0x17, 0x12,
-	0x8f, 0x53, 0x0f, 0xe6, 0x38, 0x29, 0x7e, 0x3d, 0x54, 0x77, 0x28, 0x31, 0x24, 0xb1, 0x81, 0xbd,
-	0x60, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x26, 0x6b, 0x3b, 0xfa, 0xda, 0x00, 0x00, 0x00,
+	0x57, 0x62, 0xe7, 0x62, 0x75, 0xcd, 0x2d, 0x28, 0xa9, 0x54, 0x92, 0xe3, 0xe2, 0x00, 0x29, 0xf0,
+	0xcc, 0x4b, 0xcb, 0x17, 0x12, 0xe2, 0x62, 0x49, 0xce, 0xcf, 0xcc, 0x93, 0x60, 0x54, 0x60, 0xd4,
+	0xe0, 0x0c, 0x02, 0xb3, 0x95, 0x62, 0xb8, 0xf8, 0x10, 0x9a, 0xc1, 0xaa, 0xa4, 0xb8, 0x38, 0xd2,
+	0x32, 0x73, 0x52, 0xfd, 0x12, 0x73, 0x53, 0xa1, 0x2a, 0xe1, 0x7c, 0x21, 0x19, 0x2e, 0xce, 0x92,
+	0xcc, 0xdc, 0xd4, 0xe2, 0x92, 0xc4, 0xdc, 0x02, 0x09, 0x26, 0x05, 0x46, 0x0d, 0xe6, 0x20, 0x84,
+	0x80, 0x90, 0x00, 0x17, 0x73, 0x76, 0x6a, 0xa5, 0x04, 0x33, 0x58, 0x13, 0x88, 0x09, 0x32, 0xdd,
+	0x25, 0x31, 0x33, 0xa7, 0x92, 0x26, 0xa6, 0x1b, 0xa5, 0x72, 0xf1, 0xa1, 0x7a, 0x5e, 0x48, 0x8b,
+	0x8b, 0x0b, 0x89, 0xc7, 0xa9, 0x07, 0xf3, 0xba, 0x14, 0xbf, 0x1e, 0xaa, 0x2f, 0x95, 0x18, 0x84,
+	0xd4, 0xb9, 0xb8, 0x10, 0x6e, 0x13, 0x62, 0xd3, 0x03, 0x87, 0x97, 0x14, 0xbf, 0x1e, 0xaa, 0x83,
+	0x95, 0x18, 0x92, 0xd8, 0xc0, 0x41, 0x6a, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x8d, 0xb4, 0xcb,
+	0x1a, 0x6a, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -150,6 +241,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CoinPriceChartClient interface {
 	PriceChart(ctx context.Context, in *CoinInfo, opts ...grpc.CallOption) (*PriceChartInfo, error)
+	DailyChart(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*DailyChartInfo, error)
 }
 
 type coinPriceChartClient struct {
@@ -169,9 +261,19 @@ func (c *coinPriceChartClient) PriceChart(ctx context.Context, in *CoinInfo, opt
 	return out, nil
 }
 
+func (c *coinPriceChartClient) DailyChart(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*DailyChartInfo, error) {
+	out := new(DailyChartInfo)
+	err := c.cc.Invoke(ctx, "/CoinPriceChart/DailyChart", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CoinPriceChartServer is the server API for CoinPriceChart service.
 type CoinPriceChartServer interface {
 	PriceChart(context.Context, *CoinInfo) (*PriceChartInfo, error)
+	DailyChart(context.Context, *Empty) (*DailyChartInfo, error)
 }
 
 func RegisterCoinPriceChartServer(s *grpc.Server, srv CoinPriceChartServer) {
@@ -196,6 +298,24 @@ func _CoinPriceChart_PriceChart_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoinPriceChart_DailyChart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoinPriceChartServer).DailyChart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/CoinPriceChart/DailyChart",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoinPriceChartServer).DailyChart(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _CoinPriceChart_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "CoinPriceChart",
 	HandlerType: (*CoinPriceChartServer)(nil),
@@ -203,6 +323,10 @@ var _CoinPriceChart_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PriceChart",
 			Handler:    _CoinPriceChart_PriceChart_Handler,
+		},
+		{
+			MethodName: "DailyChart",
+			Handler:    _CoinPriceChart_DailyChart_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -155,6 +155,9 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 				steem.DelegateCommand(m.ChannelID, emc, args[1:])
 			}
 			break
+		case "daily":
+			command.DailyCommand(m, emc)
+			break
 		default:
 			emc <- d.DiscordEmbedMessage{
 				CID:     m.ChannelID,

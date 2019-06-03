@@ -86,6 +86,31 @@ server.addService(CoinPriceChart.service, {
           status: grpc.status.INTERNAL
         });
       });
+  },
+  DailyChart: (data, callback) => {
+    const timeNow = Date.now();
+    const link = `https://superoo7.github.io/ce-to-iframe/?wc-name=coingecko-coin-daily-price-widget&wc-src=https%3A%2F%2Fwidgets.coingecko.com%2Fcoingecko-coin-daily-price-widget.js`;
+    const img = `../img/daily-${timeNow}.png`;
+    captureWebsite
+      .file(link, img, { height: 560, width: 1220, delay: 5 })
+      .then(() => {
+        return s3Upload("PriceChart", img);
+      })
+      .then(data => {
+        log(data.Location);
+        callback(null, {
+          fileName: `daily.png`,
+          timestamp: timeNow,
+          key: data.key
+        });
+      })
+      .catch(err => {
+        callback({
+          code: 400,
+          message: err.message,
+          status: grpc.status.INTERNAL
+        });
+      });
   }
 });
 
