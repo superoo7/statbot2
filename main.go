@@ -128,6 +128,21 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
+							Name:   "`%chart <coin>`",
+							Value:  "To get cryptocurrency chart of a certain coin",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "`%daily`",
+							Value:  "Get daily top 12 cryptocurrencies prices",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name: "`%delegate <from> <to> <amount>` or `%delegate <to> <amount>`",
+							Value: "Delegate to a person with steemconnect",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
 							Name:   "`%discord`",
 							Value:  "to join our discord!",
 							Inline: false,
