@@ -179,6 +179,11 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
+							Name:   "`%sf` or `%steemfest`",
+							Value:  "Count down to SteemFest!",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
 							Name:   "`%donate`",
 							Value:  "To get details to donate to me",
 							Inline: false,
