@@ -17,15 +17,17 @@ type countdown struct {
 }
 
 func SteemFestCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage) {
-	v, _ := time.Parse(time.RFC3339, "2019-11-06T14:00:00+08:00")
+	v, _ := time.Parse(time.RFC3339, "2019-06-06T00:00:00+08:00")
 	t := getTimeRemaining(v)
-	var em *discord.MessageEmbed
-	if t.t < 0 {
-		em = d.GenSimpleEmbed(d.Blue, "Steemfest is live! \nCheckout https://steemfest.com/")
+	var msg string
+	if t.d < -5 {
+		msg = "Steemfest is over, please wait for next year :)\nCheckout https://steemfest.com/ "
+	} else if t.t < 0 {
+		msg = fmt.Sprintf("Steemfest 2019 is live (day %d)! \nCheckout https://steemfest.com/", (-t.d)+1)
 	} else {
-		em = d.GenSimpleEmbed(d.Blue, fmt.Sprintf("Steemfest is coming in %d days %d hours %d minutes and %d seconds! \nCheckout https://steemfest.com/", t.d, t.h, t.m, t.s))
+		msg = fmt.Sprintf("Steemfest is coming in %d days %d hours %d minutes and %d seconds! \nCheckout https://steemfest.com/", t.d, t.h, t.m, t.s)
 	}
-	c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+	c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: d.GenSimpleEmbed(d.Blue, msg)}
 }
 
 func getTimeRemaining(t time.Time) countdown {
