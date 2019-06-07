@@ -115,6 +115,37 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: msg}
 			mc <- d.DiscordMessage{CID: m.ChannelID, Message: "https://discord.gg/J99vTUS"}
 			break
+		case "donate", "donation":
+			emc <- d.DiscordEmbedMessage{
+				CID: m.ChannelID,
+				Message: d.GenMultipleEmbed(
+					d.Blue,
+					"Donation to make this project sustainable",
+					[]*discord.MessageEmbedField{
+						&discord.MessageEmbedField{
+							Name:   "I accept following cryptocurrencies, feel free to donate.",
+							Value:  "can drop me an email or discord message after you had done.",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "Steem",
+							Value:  "[@superoo7](https://steemitwallet.com/@superoo7)",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "Ethereum/Hunt-Token/ERC20 tokens",
+							Value:  "[superoo7.eth](https://etherscan.io/address/superoo7.eth) (ENS Address) or [0xfCAD3475520fb54Fc95305A6549A79170DA8B7C0](https://etherscan.io/address/0xfCAD3475520fb54Fc95305A6549A79170DA8B7C0)",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "Bitcoin",
+							Value:  "[3QvrngBgkwT7x1ybUcLNSCPZrooiErVgfZ](https://www.blockchain.com/btc/address/3QvrngBgkwT7x1ybUcLNSCPZrooiErVgfZ)",
+							Inline: false,
+						},
+					},
+				),
+			}
+			break
 		case "h", "help":
 			emc <- d.DiscordEmbedMessage{
 				CID: m.ChannelID,
@@ -138,8 +169,13 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
-							Name: "`%delegate <from> <to> <amount>` or `%delegate <to> <amount>`",
-							Value: "Delegate to a person with steemconnect",
+							Name:   "`%delegate <from> <to> <amount>` or `%delegate <to> <amount>`",
+							Value:  "Delegate to a person with steemconnect",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
+							Name:   "`%donate`",
+							Value:  "To get details to donate to me",
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
