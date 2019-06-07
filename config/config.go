@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"reflect"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -89,6 +90,6 @@ func setupCurrency() {
 	}
 	keys := reflect.ValueOf(currencies).MapKeys()
 	for _, c := range keys {
-		SupportedCurrencies = append(SupportedCurrencies, c.String())
+		SupportedCurrencies = append(SupportedCurrencies, strings.ToLower(c.String()))
 	}
 }

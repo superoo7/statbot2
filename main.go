@@ -195,7 +195,7 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 		case "s", "steem":
 			steem.SteemCommand(m.ChannelID, args, emc, mc)
 			break
-		case "convert", "s/sbd", "sbd/s", "bugs", "bug", "hunt", "steemhunt":
+		case "s/sbd", "sbd/s", "bugs", "bug", "hunt", "steemhunt":
 			emc <- d.DiscordEmbedMessage{
 				CID:     m.ChannelID,
 				Message: d.GenErrorMessage("Command are still Work In Progress (WIP) in V2, please wait for the update"),
@@ -208,6 +208,9 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			break
 		case "daily":
 			command.DailyCommand(m, emc)
+			break
+		case "convert":
+			command.ConvertCommand(m, emc, args[1:])
 			break
 		default:
 			emc <- d.DiscordEmbedMessage{
