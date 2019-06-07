@@ -17,7 +17,7 @@ type countdown struct {
 }
 
 func SteemFestCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage) {
-	v, _ := time.Parse(time.RFC3339, "2019-06-06T00:00:00+08:00")
+	v, _ := time.Parse(time.RFC3339, "2019-11-06T00:00:00+08:00")
 	t := getTimeRemaining(v)
 	var msg string
 	if t.d < -5 {
