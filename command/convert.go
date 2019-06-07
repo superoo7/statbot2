@@ -13,8 +13,8 @@ import (
 
 // %convert 1 steem usd
 func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, args []string) {
-
 	if len(args) >= 3 {
+		// Load CoinList
 		err := LoadCoinList()
 		if err != nil {
 			em := d.GenSimpleEmbed(d.Red, "CoinGecko API cannot be connected.")
@@ -22,6 +22,7 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 			return
 		}
 
+		// Get amount (args[0])
 		a, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			em := d.GenErrorMessage(fmt.Sprintf("`%s` is not a valid number", args[0]))
@@ -30,6 +31,7 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 		}
 		amount := float32(a)
 
+		// Get coin1 and coin2 (args[1], args[2])
 		c1 := strings.ToLower(args[1])
 		c2 := strings.ToLower(args[2])
 
@@ -55,7 +57,9 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 		if isCoin1Supported {
 			convertedPriceCoin2, err := coingecko.CG.SimpleSinglePrice(coin2, coin1)
 			if err != nil {
-				// handle error
+				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c2))
+				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+				return
 			}
 			coin2p := convertedPriceCoin2.MarketPrice
 			em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("%f %s <=> %f %s", amount, c1, coin2p*amount, c2))
@@ -64,7 +68,9 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 		} else if isCoin2Supported {
 			convertedPriceCoin1, err := coingecko.CG.SimpleSinglePrice(coin1, coin2)
 			if err != nil {
-				// handle error
+				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c1))
+				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+				return
 			}
 			coin1p := convertedPriceCoin1.MarketPrice
 			em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("%f %s <=> %f %s", amount, c1, coin1p*amount, c2))
@@ -74,16 +80,26 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 			// maybe crypto -> crypto
 			convertedPriceCoin1, err := coingecko.CG.SimpleSinglePrice(coin1, "usd")
 			if err != nil {
+				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c1))
+				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+				return
 			}
 			p1 := convertedPriceCoin1.MarketPrice
 			convertedPriceCoin2, err := coingecko.CG.SimpleSinglePrice(coin2, "usd")
 			if err != nil {
+				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c1))
+				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+				return
 			}
 			p2 := convertedPriceCoin2.MarketPrice
 			em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("%f %s <=> %f %s", amount, c1, amount*p1/p2, c2))
 			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 			return
 		}
+	} else {
+		em := d.GenErrorMessage("Invalid format, please try `%convert <amount> <crypto/fiat> <crypto/fiat>`")
+		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+		return
 	}
 }
 

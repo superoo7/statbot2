@@ -65,6 +65,8 @@ github.com/superoo7/go-gecko v0.0.0-20190429231733-2571a92dc57c h1:sjorM5BwFBdCZ
 github.com/superoo7/go-gecko v0.0.0-20190429231733-2571a92dc57c/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
 github.com/superoo7/go-gecko v0.0.0-20190508102000-07de9a7cf28c h1:vQ/us5a2I8yas+/jIWHyIK0IESG0XzNRZr2qmEyebxg=
 github.com/superoo7/go-gecko v0.0.0-20190508102000-07de9a7cf28c/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
+github.com/superoo7/go-gecko v0.0.0-20190607060444-a448b0c99969 h1:hIDDgMTXT8MPYxBqlGroYBHSfxKC2rcPmLjnX77Xynw=
+github.com/superoo7/go-gecko v0.0.0-20190607060444-a448b0c99969/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
 golang.org/x/arch v0.0.0-20190312162104-788fe5ffcd8c/go.mod h1:flIaEI6LNU6xOCD5PaJvn9wGP0agmIOqjrtsKGRguv4=
 golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16 h1:y6ce7gCWtnH+m3dCjzQ1PCuwl28DDIc3VNnvY29DlIA=
 golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=

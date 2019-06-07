@@ -159,6 +159,11 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
+							Name:   "`%convert <amount> <crypto/fiat> <crypto/fiat>`",
+							Value:  "Convert crypto->crypto, crypto->fiat, fiat->crypto. (Does not support fiat->fiat",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
 							Name:   "`%chart <coin>`",
 							Value:  "To get cryptocurrency chart of a certain coin",
 							Inline: false,
@@ -184,7 +189,7 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
-							Name:   "`$help` , `%h`",
+							Name:   "`%help` , `%h`",
 							Value:  "for help",
 							Inline: false,
 						},
