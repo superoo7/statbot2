@@ -10,6 +10,7 @@ import (
 	discord "github.com/bwmarrin/discordgo"
 
 	"github.com/superoo7/statbot2/command"
+	"github.com/superoo7/statbot2/command/sh"
 	"github.com/superoo7/statbot2/command/steem"
 	"github.com/superoo7/statbot2/config"
 	d "github.com/superoo7/statbot2/discord"
@@ -235,9 +236,8 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			command.ConvertCommand(m, emc, args[1:])
 			break
 		case "hunt", "steemhunt":
-			emc <- d.DiscordEmbedMessage{
-				CID:     m.ChannelID,
-				Message: d.GenErrorMessage("Command are still Work In Progress (WIP) in V2, please wait for the update"),
+			if len(args) >= 2 {
+				sh.HuntCommand(m, emc, args[1])
 			}
 			break
 		default:

@@ -4,6 +4,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/anaskhan96/soup v1.0.1/go.mod h1:pT5vs4HXDwA5y4KQCsKvnkpQd3D+joP7IqpiGskfWW0=
 github.com/anaskhan96/soup v1.1.1 h1:Duux/0htS2Va7XLJ9qIakCSey790hg9OFRm2FwlMTy0=
 github.com/anaskhan96/soup v1.1.1/go.mod h1:pT5vs4HXDwA5y4KQCsKvnkpQd3D+joP7IqpiGskfWW0=
+github.com/ararog/timeago v0.0.0-20160328174124-e9969cf18b8d h1:ZX0t+GA3MWiP7LWt5xWOphWRQd5JwL4VW5uLW83KM8g=
+github.com/ararog/timeago v0.0.0-20160328174124-e9969cf18b8d/go.mod h1:EcJ034SpbWy4heOSDiBZJRn3b5wKJM1b4sFfYeVAkI4=
 github.com/bwmarrin/discordgo v0.19.0 h1:kMED/DB0NR1QhRcalb85w0Cu3Ep2OrGAqZH1R5awQiY=
 github.com/bwmarrin/discordgo v0.19.0/go.mod h1:O9S4p+ofTFwB02em7jkpkV8M3R0/PUVOwN61zSZ0r4Q=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
@@ -67,6 +69,7 @@ github.com/superoo7/go-gecko v0.0.0-20190508102000-07de9a7cf28c h1:vQ/us5a2I8yas
 github.com/superoo7/go-gecko v0.0.0-20190508102000-07de9a7cf28c/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
 github.com/superoo7/go-gecko v0.0.0-20190607060444-a448b0c99969 h1:hIDDgMTXT8MPYxBqlGroYBHSfxKC2rcPmLjnX77Xynw=
 github.com/superoo7/go-gecko v0.0.0-20190607060444-a448b0c99969/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
+github.com/superoo7/statbot v0.0.0-20190507131710-d9ef12d6ccc4 h1:/JWXSCLAYTh/f6F60VbvHZ18tZKO9maYdJp2hIxFY8M=
 golang.org/x/arch v0.0.0-20190312162104-788fe5ffcd8c/go.mod h1:flIaEI6LNU6xOCD5PaJvn9wGP0agmIOqjrtsKGRguv4=
 golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16 h1:y6ce7gCWtnH+m3dCjzQ1PCuwl28DDIc3VNnvY29DlIA=
 golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=

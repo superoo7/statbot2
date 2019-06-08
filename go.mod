@@ -1,6 +1,7 @@
 module github.com/superoo7/statbot2
 
 require (
+	github.com/ararog/timeago v0.0.0-20160328174124-e9969cf18b8d
 	github.com/bwmarrin/discordgo v0.19.0
 	github.com/golang/protobuf v1.3.1
 	github.com/joho/godotenv v1.3.0

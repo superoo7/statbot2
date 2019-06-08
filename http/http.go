@@ -1,4 +1,4 @@
-package coingecko
+package http
 
 import (
 	"net/http"
@@ -10,9 +10,12 @@ import (
 // CG new CoinGecko http client
 var CG *coingecko.Client
 
+// HTTPClient for this app
+var HTTPClient *http.Client
+
 func init() {
-	httpClient := &http.Client{
+	HTTPClient = &http.Client{
 		Timeout: time.Second * 10,
 	}
-	CG = coingecko.NewClient(httpClient)
+	CG = coingecko.NewClient(HTTPClient)
 }

@@ -6,8 +6,8 @@ import (
 
 	discord "github.com/bwmarrin/discordgo"
 
-	"github.com/superoo7/statbot2/coingecko"
 	d "github.com/superoo7/statbot2/discord"
+	"github.com/superoo7/statbot2/http"
 )
 
 // PriceCommand `%price <coin>` | `$<coin>` to query price of a certain crypto
@@ -29,7 +29,7 @@ func PriceCommand(coin string, m *discord.MessageCreate, c chan<- d.DiscordEmbed
 		return
 	}
 
-	price, err := coingecko.CG.SimpleSinglePrice(cc.ID, "usd")
+	price, err := http.CG.SimpleSinglePrice(cc.ID, "usd")
 	if err != nil {
 		em := d.GenSimpleEmbed(d.Red, fmt.Sprintf("%s not found", cc.ID))
 		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}

@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/superoo7/go-gecko/v3/types"
-	"github.com/superoo7/statbot2/coingecko"
+	"github.com/superoo7/statbot2/http"
 )
 
 var Coinlist *types.CoinList
@@ -16,7 +16,7 @@ func LoadCoinList() error {
 	days := int(diff.Hours() / 24)
 
 	if days > 1 {
-		cl, err := coingecko.CG.CoinsList()
+		cl, err := http.CG.CoinsList()
 		if err != nil {
 			return err
 		}

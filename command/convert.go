@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	discord "github.com/bwmarrin/discordgo"
-	"github.com/superoo7/statbot2/coingecko"
 	"github.com/superoo7/statbot2/config"
 	d "github.com/superoo7/statbot2/discord"
+	"github.com/superoo7/statbot2/http"
 )
 
 // %convert 1 steem usd
@@ -55,7 +55,7 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 		isCoin1Supported := contains(config.SupportedCurrencies, coin1)
 		isCoin2Supported := contains(config.SupportedCurrencies, coin2)
 		if isCoin1Supported {
-			convertedPriceCoin2, err := coingecko.CG.SimpleSinglePrice(coin2, coin1)
+			convertedPriceCoin2, err := http.CG.SimpleSinglePrice(coin2, coin1)
 			if err != nil {
 				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c2))
 				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
@@ -66,7 +66,7 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 			return
 		} else if isCoin2Supported {
-			convertedPriceCoin1, err := coingecko.CG.SimpleSinglePrice(coin1, coin2)
+			convertedPriceCoin1, err := http.CG.SimpleSinglePrice(coin1, coin2)
 			if err != nil {
 				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c1))
 				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
@@ -78,14 +78,14 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 			return
 		} else {
 			// maybe crypto -> crypto
-			convertedPriceCoin1, err := coingecko.CG.SimpleSinglePrice(coin1, "usd")
+			convertedPriceCoin1, err := http.CG.SimpleSinglePrice(coin1, "usd")
 			if err != nil {
 				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c1))
 				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 				return
 			}
 			p1 := convertedPriceCoin1.MarketPrice
-			convertedPriceCoin2, err := coingecko.CG.SimpleSinglePrice(coin2, "usd")
+			convertedPriceCoin2, err := http.CG.SimpleSinglePrice(coin2, "usd")
 			if err != nil {
 				em := d.GenErrorMessage(fmt.Sprintf("%s is not supported", c1))
 				c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
