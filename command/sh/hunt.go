@@ -28,28 +28,16 @@ type SteemHuntPost struct {
 	Permlink      string        `json:"permlink"`
 	IsActive      bool          `json:"is_active"`
 	PayoutValue   float64       `json:"payout_value"`
-	ActiveVotes   []struct {
-		Voter      string `json:"voter"`
-		Weight     int    `json:"weight"`
-		Rshares    string `json:"rshares"`
-		Percent    int    `json:"percent"`
-		Reputation int    `json:"reputation"`
-		Time       string `json:"time"`
-	} `json:"active_votes"`
-	Children    int       `json:"children"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	Description string    `json:"description"`
-	IsVerified  bool      `json:"is_verified"`
-	VerifiedBy  string    `json:"verified_by"`
-	HuntScore   float64   `json:"hunt_score"`
-	ValidVotes  []struct {
-		Score   float64 `json:"score"`
-		Voter   string  `json:"voter"`
-		Weight  int     `json:"weight"`
-		Percent int     `json:"percent"`
-	} `json:"valid_votes"`
-	ListedAt time.Time `json:"listed_at"`
+	ActiveVotes   []interface{} `json:"active_votes"`
+	Children      int           `json:"children"`
+	CreatedAt     time.Time     `json:"created_at"`
+	UpdatedAt     time.Time     `json:"updated_at"`
+	Description   string        `json:"description"`
+	IsVerified    bool          `json:"is_verified"`
+	VerifiedBy    string        `json:"verified_by"`
+	HuntScore     float64       `json:"hunt_score"`
+	ValidVotes    []interface{} `json:"valid_votes"`
+	ListedAt      time.Time     `json:"listed_at"`
 }
 
 func HuntCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, link string) {
@@ -89,6 +77,7 @@ func HuntCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, link 
 		var data SteemHuntPost
 		err = json.Unmarshal(resp, &data)
 		if err != nil {
+			fmt.Println(err)
 			em := d.GenErrorMessage("Unable to process post data from SteemHunt API.")
 			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 			return
@@ -121,7 +110,7 @@ func HuntCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, link 
 				},
 				&discord.MessageEmbedField{
 					Name:   "URL",
-					Value:  fmt.Sprintf("https://steemhunt.com/%s/%s?ref=superoo7", authorName, permlinkName),
+					Value:  fmt.Sprintf("https://steemhunt.com/@%s/%s?ref=superoo7", data.Author, data.Permlink),
 					Inline: true,
 				},
 				&discord.MessageEmbedField{
