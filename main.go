@@ -115,6 +115,10 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: msg}
 			mc <- d.DiscordMessage{CID: m.ChannelID, Message: "https://discord.gg/J99vTUS"}
 			break
+		case "bug", "bugs":
+			msg := d.GenSimpleEmbed(d.Blue, "Report bugs at https://github.com/superoo7/statbot2/issues")
+			emc <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: msg}
+			break
 		case "donate", "donation":
 			emc <- d.DiscordEmbedMessage{
 				CID: m.ChannelID,
@@ -205,15 +209,20 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 		case "s", "steem":
 			steem.SteemCommand(m.ChannelID, args, emc, mc)
 			break
-		case "s/sbd", "sbd/s", "bugs", "bug", "hunt", "steemhunt":
-			emc <- d.DiscordEmbedMessage{
-				CID:     m.ChannelID,
-				Message: d.GenErrorMessage("Command are still Work In Progress (WIP) in V2, please wait for the update"),
-			}
+		case "s/sbd":
+			command.ConvertCommand(m, emc, []string{"1", "steem", "sbd"})
+			break
+		case "sbd/s":
+			command.ConvertCommand(m, emc, []string{"1", "sbd", "steem"})
 			break
 		case "delegate":
 			if len(args) > 1 {
 				steem.DelegateCommand(m.ChannelID, emc, args[1:])
+			} else {
+				emc <- d.DiscordEmbedMessage{
+					CID:     m.ChannelID,
+					Message: d.GenErrorMessage("Invalid command, try `%delegate <from> <to> <no of sp>`"),
+				}
 			}
 			break
 		case "sf", "steemfest":
@@ -224,6 +233,12 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 			break
 		case "convert":
 			command.ConvertCommand(m, emc, args[1:])
+			break
+		case "hunt", "steemhunt":
+			emc <- d.DiscordEmbedMessage{
+				CID:     m.ChannelID,
+				Message: d.GenErrorMessage("Command are still Work In Progress (WIP) in V2, please wait for the update"),
+			}
 			break
 		default:
 			emc <- d.DiscordEmbedMessage{
