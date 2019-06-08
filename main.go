@@ -189,6 +189,11 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Inline: false,
 						},
 						&discord.MessageEmbedField{
+							Name:   "`%hunt <steemhunt link>` or `%sh <steemhunt link`",
+							Value:  "Get hunt post details",
+							Inline: false,
+						},
+						&discord.MessageEmbedField{
 							Name:   "`%donate`",
 							Value:  "To get details to donate to me",
 							Inline: false,
