@@ -53,10 +53,15 @@ type SteemHuntPost struct {
 }
 
 func HuntCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, link string) {
+	// delete message
+	d.Discord.ChannelMessageDelete(m.ChannelID, m.ID)
+
 	authorName := ""
 	permlinkName := ""
 	match, err := regexp.MatchString("(https?:\\/\\/[^\\s]+)", link)
 	if match == false || err != nil {
+		em := d.GenErrorMessage("Not a valid link")
+		c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 		return
 	}
 	re := regexp.MustCompile("[\\/#]")
@@ -77,14 +82,17 @@ func HuntCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, link 
 		url := fmt.Sprintf("https://api.steemhunt.com/posts/%s/%s.json", authorName, permlinkName)
 		resp, err := http.CG.MakeReq(url)
 		if err != nil {
+			em := d.GenErrorMessage("Post not found or SteemHunt API down.")
+			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+			return
 		}
 		var data SteemHuntPost
 		err = json.Unmarshal(resp, &data)
 		if err != nil {
+			em := d.GenErrorMessage("Unable to process post data from SteemHunt API.")
+			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
+			return
 		}
-
-		// delete message
-		d.Discord.ChannelMessageDelete(m.ChannelID, m.ID)
 
 		sender, _ := d.Discord.UserChannelCreate(m.Author.ID)
 		// Verify?
