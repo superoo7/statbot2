@@ -235,7 +235,7 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 		case "convert":
 			command.ConvertCommand(m, emc, args[1:])
 			break
-		case "hunt", "steemhunt":
+		case "sh", "hunt", "steemhunt":
 			if len(args) >= 2 {
 				sh.HuntCommand(m, emc, args[1])
 			}
