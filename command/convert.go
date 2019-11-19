@@ -73,7 +73,7 @@ func ConvertCommand(m *discord.MessageCreate, c chan<- d.DiscordEmbedMessage, ar
 				return
 			}
 			coin1p := convertedPriceCoin1.MarketPrice
-			em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("%f %s <=> %f %s", amount, c1, coin1p*amount, c2))
+			em := d.GenSimpleEmbed(d.Green, fmt.Sprintf("%f %s <=> %f %s", amount, c1, amount/coin1p, c2))
 			c <- d.DiscordEmbedMessage{CID: m.ChannelID, Message: em}
 			return
 		} else {
