@@ -183,11 +183,11 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 							Value:  "Delegate to a person with steemconnect",
 							Inline: false,
 						},
-						&discord.MessageEmbedField{
-							Name:   "`%sf` or `%steemfest`",
-							Value:  "Count down to SteemFest!",
-							Inline: false,
-						},
+						// &discord.MessageEmbedField{
+						// 	Name:   "`%sf` or `%steemfest`",
+						// 	Value:  "Count down to SteemFest!",
+						// 	Inline: false,
+						// },
 						&discord.MessageEmbedField{
 							Name:   "`%hunt <steemhunt link>` or `%sh <steemhunt link`",
 							Value:  "Get hunt post details",
@@ -231,9 +231,9 @@ func messageCreate(s *discord.Session, m *discord.MessageCreate, emc chan<- d.Di
 				}
 			}
 			break
-		case "sf", "steemfest":
-			steem.SteemFestCommand(m, emc)
-			break
+		// case "sf", "steemfest":
+		// 	steem.SteemFestCommand(m, emc)
+		// 	break
 		case "daily":
 			command.DailyCommand(m, emc)
 			break

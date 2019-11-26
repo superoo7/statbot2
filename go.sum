@@ -69,6 +69,8 @@ github.com/superoo7/go-gecko v0.0.0-20190508102000-07de9a7cf28c h1:vQ/us5a2I8yas
 github.com/superoo7/go-gecko v0.0.0-20190508102000-07de9a7cf28c/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
 github.com/superoo7/go-gecko v0.0.0-20190607060444-a448b0c99969 h1:hIDDgMTXT8MPYxBqlGroYBHSfxKC2rcPmLjnX77Xynw=
 github.com/superoo7/go-gecko v0.0.0-20190607060444-a448b0c99969/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
+github.com/superoo7/go-gecko v1.0.0 h1:Xa1hZu2AYSA20eVMEd4etY0fcJoEI5deja1mdRmqlpI=
+github.com/superoo7/go-gecko v1.0.0/go.mod h1:6AMYHL2wP2EN8AB9msPM76Lbo8L/MQOknYjvak5coaY=
 github.com/superoo7/statbot v0.0.0-20190507131710-d9ef12d6ccc4 h1:/JWXSCLAYTh/f6F60VbvHZ18tZKO9maYdJp2hIxFY8M=
 golang.org/x/arch v0.0.0-20190312162104-788fe5ffcd8c/go.mod h1:flIaEI6LNU6xOCD5PaJvn9wGP0agmIOqjrtsKGRguv4=
 golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16 h1:y6ce7gCWtnH+m3dCjzQ1PCuwl28DDIc3VNnvY29DlIA=
